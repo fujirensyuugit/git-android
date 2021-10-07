@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/git-android.iml" filepath="$PROJECT_DIR$/git-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyGoogleAPI.iml" filepath="$PROJECT_DIR$/.idea/modules/MyGoogleAPI.iml" group="MyGoogleAPI" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="MyGoogleAPI/app" />
     </modules>
   </component>
 </project>
