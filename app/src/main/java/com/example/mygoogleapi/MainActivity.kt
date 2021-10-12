@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -20,27 +21,34 @@ import java.net.SocketException
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
-    private var URL = "https://www.googleapis.com/books/v1/volumes?q=Android"
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val editText: EditText = findViewById(R.id.kensaku)
-        val button: Button = findViewById(R.id.kensaku_button)
-        //  button.setOnClickListener(this)
-        receveBookInfo(URL)
-    }
+            private var URL = "https://www.googleapis.com/books/v1/volumes?q="
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                setContentView(R.layout.activity_main)
+                val editText: EditText = findViewById(R.id.kensaku)
+                val button: Button = findViewById(R.id.kensaku_button)
+                  button.setOnClickListener{
+                     val urlText = editText.text.toString()
 
-    @UiThread
-    private fun receveBookInfo(urlFull: String) {
-        val handler = HandlerCompat.createAsync(mainLooper)
-        val backgroundReceber = BookAPIReceber(handler, urlFull)
-        val executieService = Executors.newSingleThreadExecutor()
-        executieService.submit(backgroundReceber)
-    }
+                      receveBookInfo( MakeURL(urlText))
+                  }
 
-    private inner class BookAPIReceber(handler: Handler, url: String) : Runnable {
-        private val _handler = handler
-        private val _url = url
+            }
+    private fun MakeURL(word:String):String{
+    if(word == null)return ""
+       return  URL + word
+}
+            @UiThread
+            private fun receveBookInfo(urlFull: String) {
+                val handler = HandlerCompat.createAsync(mainLooper)
+                val backgroundReceber = BookAPIReceber(handler, urlFull)
+                val executieService = Executors.newSingleThreadExecutor()
+                executieService.submit(backgroundReceber)
+            }
+
+            private inner class BookAPIReceber(handler: Handler, url: String) : Runnable {
+                private val _handler = handler
+                private val _url = url
 
         @WorkerThread
         override fun run() {
@@ -88,21 +96,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private inner class BookPostExecuter(result:String) :Runnable{
+
         private val _result = result
+        val text: TextView = findViewById(R.id.textView)
         @UiThread
         override fun run() {
-            val rootJSON = JSONObject(_result)
+            try {
 
-            val item = rootJSON.getJSONArray("items")
+                val rootJSON = JSONObject(_result)
 
-            val itemJSON = item.getJSONObject(0)
+                val item = rootJSON.getJSONArray("items")
 
-            val info = itemJSON.getJSONObject("volumeInfo")
+                val itemJSON = item.getJSONObject(0)
 
-            val title = info.getString("title")
+                val info = itemJSON.getJSONObject("volumeInfo")
 
-            val text: TextView = findViewById(R.id.textView)
-            text.text = title
+                val title = info.getString("title")
+
+                text.text = title
+            }catch (ex: Exception){
+                text.text = "取得に失敗しました"
+            }
         }
     }
 }
