@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyGoogleAPI.iml" filepath="$PROJECT_DIR$/.idea/modules/MyGoogleAPI.iml" group="MyGoogleAPI" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="MyGoogleAPI/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyGoogleAPI.iml" filepath="$PROJECT_DIR$/.idea/modules/MyGoogleAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MyGoogleAPI.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MyGoogleAPI.app.iml" />
     </modules>
   </component>
 </project>
