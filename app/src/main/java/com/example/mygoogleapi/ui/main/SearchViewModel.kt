@@ -6,31 +6,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mygoogleapi.ApiService
 import com.example.mygoogleapi.Kensakudata
-import com.example.mygoogleapi.Searchrepositry
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import retrofit2.converter.gson.GsonConverterFactory;
 
-class SearchViewModel : ViewModel(),Searchrepositry {
+class SearchViewModel : ViewModel() {
     private var _searchResult: MutableLiveData<Result<Kensakudata>> = MutableLiveData()
-    val searchResult: LiveData<Result<Kensakudata>>  = _searchResult
+    val searchResult: LiveData<Result<Kensakudata>> = _searchResult
     private val GoogleBookUrl: String = "https://www.googleapis.com"
 
     private val httpClient: OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(120, TimeUnit.SECONDS)
-        .readTimeout(120, TimeUnit.SECONDS)
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        })
+        .connectTimeout(100, TimeUnit.SECONDS)
+        .readTimeout(100, TimeUnit.SECONDS)
         .build()
+
     val gson = GsonBuilder()
-        .create() //
+        .create()
 
     var retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(GoogleBookUrl)
@@ -41,21 +37,17 @@ class SearchViewModel : ViewModel(),Searchrepositry {
 
     val apiService = retrofit.create(ApiService::class.java)
 
+
     @SuppressLint("CheckResult")
-    fun getBookData(query:String) {
+    fun getBookData(query: String) {
         apiService.getSearch(query)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe( {
+            .subscribe({
                 _searchResult.postValue(Result.success(it))
             }, {
                 _searchResult.postValue(Result.failure(it))
             })
-    }
-
-    override fun getGoogleAPI(query: String, retrofit: Retrofit) {
-        val apiService = retrofit.create(ApiService::class.java)
-        apiService.getSearch(query)
     }
 }
 
