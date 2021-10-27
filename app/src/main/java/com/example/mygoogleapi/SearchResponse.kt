@@ -1,20 +1,25 @@
 package com.example.mygoogleapi
 
+import com.google.gson.annotations.SerializedName
+
 
 data class Kensakudata(
+
     val items: List<items>? = null
 )
 
 data class items(
     val id: String = "",
-    val volumeInfo: volumeInfo,
-    val ImageLinks:ImageLinks
+    val volumeInfo: volumeInfo
 )
 
 data class volumeInfo(
     val title: String = "",
     val subtitle: String = "",
-    val autor: List<String>? = null
+    @SerializedName("authors")
+    val authors: List<String>? = null,
+    @SerializedName("imageLinks")
+    val ImageLinks:ImageLinks? = null
 )
 
 data class ImageLinks(
