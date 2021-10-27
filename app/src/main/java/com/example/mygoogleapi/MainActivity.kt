@@ -24,7 +24,6 @@ import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: SearchViewModel
-    private var URL = "https://www.googleapis.com/books/v1/volumes?q=Android"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     viewModel.searchResult.observe(this, Observer {
      it.onSuccess{
-          text.text = it.volumeInfo.getOrNull(0)?.title ?: "未取得"
+          text.text = it.items.getOrNull(0)?.volumeInfo?.title ?: "未取得"
       }
         it.onFailure {
             text.text = "エラー"

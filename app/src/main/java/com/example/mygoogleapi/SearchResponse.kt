@@ -1,12 +1,20 @@
 package com.example.mygoogleapi
 
 
-data class Kensakudata(val volumeInfo:List<VolumeInfo>,  val imageLinks:List<ImageLinks>)
 
-data class VolumeInfo(
+data class Kensakudata(
+    val items:List<items>
+)
+
+data class items(
+    val id:String = "",
+    val volumeInfo:volumeInfo
+)
+
+data class volumeInfo(
     val title:String = "",
     val subtitle:String= "",
-    val autor:List<String>
+    val autor:List<String> = listOf<String>("")
 )
 
 data class ImageLinks(
